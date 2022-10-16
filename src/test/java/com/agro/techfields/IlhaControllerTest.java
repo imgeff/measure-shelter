@@ -21,6 +21,23 @@ import org.junit.jupiter.api.Test;
 public class IlhaControllerTest {
 
   @Test
+  public void testCriarIlhaSucesso() {
+    Plantacao plantacao = UtilTest.criaPlantacao("Soja");
+    IlhaDto ilha = new IlhaDto(plantacao.getId(), "Norte");
+    Response response = given()
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(ilha)
+        .when()
+        .post("/ilha");
+    
+    Ilha responseBody = response.as(Ilha.class);
+    
+    assertEquals(Status.CREATED.getStatusCode(), response.getStatusCode());
+    assertEquals("Norte", responseBody.getArea());
+    assertFalse(responseBody.getId().isEmpty());
+  }
+
+  @Test
   public void testDeletarIlhaSucesso() {
     Plantacao plantacao = UtilTest.criaPlantacao("Soja");
     Ilha ilha = UtilTest.criaIlha(plantacao.getId(), "Norte");
