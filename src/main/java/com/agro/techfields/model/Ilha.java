@@ -41,4 +41,9 @@ public class Ilha {
     this.medidas = medidas;
   }
 
+  /** Adiciona Medida ao array medidas. */
+  public void addMedida(Medida medida) {
+    this.medidas.add(medida);
+  }
+
 }
