@@ -7,7 +7,7 @@ import org.bson.types.ObjectId;
 
 public class Plantacao {
   public ObjectId id;
-  
+
   private String nome;
 
   private List<Ilha> ilhas;
@@ -21,8 +21,8 @@ public class Plantacao {
 
   /**
    * Cria uma nova plantação.
-   * @param nome
-   * nome da plantação
+   * 
+   * @param nome nome da plantação
    */
   public Plantacao(String nome) {
     this.nome = nome;
@@ -58,4 +58,13 @@ public class Plantacao {
     this.imagens = imagens;
   }
 
+  /** Adiciona Ilha ao array ilhas. */
+  public void addIlha(Ilha ilha) {
+    this.ilhas.add(ilha);
+  }
+
+  /** Adiciona Imagem ao array imagens. */
+  public void addImagem(Imagem imagem) {
+    this.imagens.add(imagem);
+  }
 }
