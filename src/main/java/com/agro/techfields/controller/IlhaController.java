@@ -1,7 +1,7 @@
 package com.agro.techfields.controller;
 
+import com.agro.techfields.dto.AtualizarIlhaDto;
 import com.agro.techfields.dto.IlhaDto;
-import com.agro.techfields.dto.PlantacaoIlhaDto;
 import com.agro.techfields.model.Ilha;
 import com.agro.techfields.result.MensagemResult;
 import com.agro.techfields.service.IlhaService;
@@ -46,8 +46,8 @@ public class IlhaController {
   }
 
   @PUT
-  public Response atualizarIlha(PlantacaoIlhaDto plantacaoIlhaDto, IlhaDto ilha) {
-    Ilha ilhaAtualizada = this.ilhaService.atualizarIlha(plantacaoIlhaDto, ilha);
+  public Response atualizarIlha(AtualizarIlhaDto atualizarIlhaDto) {
+    Ilha ilhaAtualizada = this.ilhaService.atualizarIlha(atualizarIlhaDto);
     return Response.status(Status.OK).entity(ilhaAtualizada).build();
   }
 

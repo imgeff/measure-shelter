@@ -1,7 +1,7 @@
 package com.agro.techfields.service;
 
+import com.agro.techfields.dto.AtualizarIlhaDto;
 import com.agro.techfields.dto.IlhaDto;
-import com.agro.techfields.dto.PlantacaoIlhaDto;
 import com.agro.techfields.model.Ilha;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.repository.PlantacaoRepository;
@@ -44,10 +44,10 @@ public class IlhaService {
   }
 
   /** Atualiza Ilha. */
-  public Ilha atualizarIlha(PlantacaoIlhaDto plantacaoIlhaDto, IlhaDto ilha) {
-    ObjectId plantacaoId = ilha.getPlantacaoId();
-    ObjectId ilhaId = plantacaoIlhaDto.getIlhaId();
-    String area = ilha.getArea();
+  public Ilha atualizarIlha(AtualizarIlhaDto atualizarIlhaDto) {
+    ObjectId plantacaoId = atualizarIlhaDto.getPlantacaoId();
+    ObjectId ilhaId = atualizarIlhaDto.getIlhaId();
+    String area = atualizarIlhaDto.getArea();
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
 
