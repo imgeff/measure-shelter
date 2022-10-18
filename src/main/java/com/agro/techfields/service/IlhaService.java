@@ -3,7 +3,6 @@ package com.agro.techfields.service;
 import com.agro.techfields.dto.IlhaDto;
 import com.agro.techfields.dto.PlantacaoIlhaDto;
 import com.agro.techfields.model.Ilha;
-import com.agro.techfields.model.Imagem;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.repository.PlantacaoRepository;
 import com.agro.techfields.result.MensagemResult;
@@ -18,15 +17,8 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class IlhaService {
 
-  /**
-   * Atributos
-   */
   @Inject
   private PlantacaoRepository plantacaoRepository;
-
-  /**
-   * Métodos
-   */
 
   /** Cria ilha. */
   Ilha criarIlha(IlhaDto ilha) {

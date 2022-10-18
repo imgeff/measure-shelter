@@ -4,18 +4,12 @@ import org.bson.types.ObjectId;
 
 public class MedidaDto {
   
-  /**
-   * Atributos
-   */
   private ObjectId plantacaoId;
   private ObjectId ilhaId;
   private String umidadeDoAr;
   private String umidadeDoSolo;
   private String temperatura;
 
-  /**
-   * Métodos
-   */
   public ObjectId getPlantacaoId() {
     return plantacaoId;
   }

@@ -15,9 +15,6 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class ImagemService {
 
-  /**
-   * Atributos
-   */
   @Inject
   private PlantacaoRepository plantacaoRepository;
 

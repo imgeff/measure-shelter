@@ -4,15 +4,9 @@ import org.bson.types.ObjectId;
 
 public class ImagemDto {
 
-  /**
-   * Atributos
-   */
   private ObjectId plantacaoId;
   private String url;
 
-  /**
-   * Métodos
-   */
   public ObjectId getPlantacaoId() {
     return plantacaoId;
   }

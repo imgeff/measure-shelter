@@ -18,9 +18,6 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class MedidaService {
 
-  /**
-   * Atributos
-   */
   @Inject
   private PlantacaoRepository plantacaoRepository;
 
@@ -62,10 +59,10 @@ public class MedidaService {
 
     List<Ilha> ilhas = plantacao.getIlhas();
 
-    Ilha OptionalIlha = ilhas.stream().filter(ilha -> ilha.getId().equals(ilhaId)).findFirst()
+    Ilha ilhaDaMedida = ilhas.stream().filter(ilha -> ilha.getId().equals(ilhaId)).findFirst()
         .orElse(null);
 
-    return OptionalIlha.getMedidas();
+    return ilhaDaMedida.getMedidas();
   }
 
   /** Atualiza uma medida pelo id passado. */

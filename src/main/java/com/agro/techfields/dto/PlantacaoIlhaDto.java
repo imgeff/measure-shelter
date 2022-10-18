@@ -4,15 +4,9 @@ import org.bson.types.ObjectId;
 
 public class PlantacaoIlhaDto {
 
-  /**
-   * Atributos
-   */
   private ObjectId plantacaoId;
   private ObjectId ilhaId;
 
-  /**
-   * Métodos
-   */
   public ObjectId getPlantacaoId() {
     return plantacaoId;
   }
