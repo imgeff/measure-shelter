@@ -51,4 +51,14 @@ public class IlhaController {
     return Response.status(Status.OK).entity(ilhaAtualizada).build();
   }
 
+  @DELETE
+  @Path("/{nomePlantacao}/{ilhaId}")
+  public Response deletarIlha(
+      @PathParam("nomePlantacao") String nomePlantacao, 
+      @PathParam("ilhaId") ObjectId ilhaId
+  ) {
+    MensagemResult resultadoDelecao = this.ilhaService.deletarIlha(nomePlantacao, ilhaId);
+    return Response.status(Status.OK).entity(resultadoDelecao).build();
+  }
+  
 }
