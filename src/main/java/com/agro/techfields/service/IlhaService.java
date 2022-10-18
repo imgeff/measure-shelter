@@ -21,7 +21,7 @@ public class IlhaService {
   private PlantacaoRepository plantacaoRepository;
 
   /** Cria ilha. */
-  Ilha criarIlha(IlhaDto ilha) {
+  public Ilha criarIlha(IlhaDto ilha) {
     ObjectId plantacaoId = ilha.getPlantacaoId();
     String area = ilha.getArea();
 
@@ -35,8 +35,8 @@ public class IlhaService {
     return novaIlha;
   }
 
-  /** Busca ilha. */
-  List<Ilha> buscarIlhas(ObjectId idPlantacao) {
+  /** Busca ilhas. */
+  public List<Ilha> buscarIlhas(ObjectId idPlantacao) {
 
     Plantacao plantacao = plantacaoRepository.findById(idPlantacao);
 
@@ -44,7 +44,7 @@ public class IlhaService {
   }
 
   /** Atualiza Ilha. */
-  Ilha atualizarIlha(PlantacaoIlhaDto plantacaoIlhaDto, IlhaDto ilha) {
+  public Ilha atualizarIlha(PlantacaoIlhaDto plantacaoIlhaDto, IlhaDto ilha) {
     ObjectId plantacaoId = ilha.getPlantacaoId();
     ObjectId ilhaId = plantacaoIlhaDto.getIlhaId();
     String area = ilha.getArea();
@@ -70,7 +70,7 @@ public class IlhaService {
   }
 
   /** Deleta ilha. */
-  MensagemResult deletarIlha(String nomePlantacao, ObjectId ilhaId) {
+  public MensagemResult deletarIlha(String nomePlantacao, ObjectId ilhaId) {
     Plantacao plantacao = plantacaoRepository.find("nome", nomePlantacao).firstResult();
 
     List<Ilha> ilhas = plantacao.getIlhas();
