@@ -6,7 +6,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 public class Ilha {
-  public ObjectId id;
+  public ObjectId id = new ObjectId();
 
   private String area;
 
@@ -16,6 +16,11 @@ public class Ilha {
     this.medidas = new ArrayList<Medida>();
   }
 
+  /**
+   * Cria uma nova Ilha.
+   * @param area
+   * área da ilha a ser criada
+   */
   public Ilha(String area) {
     this.area = area;
     this.medidas = new ArrayList<Medida>();
