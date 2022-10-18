@@ -45,4 +45,11 @@ public class MedidaController {
     return Response.status(Status.CREATED).entity(medidaCriada).build();
   }
 
+  @PUT
+  @Path("/{medidaId}")
+  public Response atualizarMedida(@PathParam("medidaId") ObjectId medidaId, MedidaDto medida) {
+    Medida medidaAtualizada = this.medidaService.atualizarMedida(medidaId, medida);
+    return Response.status(Status.OK).entity(medidaAtualizada).build();
+  }
+
 }
