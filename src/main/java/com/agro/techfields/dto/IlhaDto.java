@@ -3,16 +3,9 @@ package com.agro.techfields.dto;
 import org.bson.types.ObjectId;
 
 public class IlhaDto {
-  /**
-   * Atributos
-   */
   private ObjectId plantacaoId;
 
   private String area;
-
-  /**
-   * Métodos
-   */
 
   public ObjectId getPlantacaoId() {
     return plantacaoId;

@@ -1,9 +1,8 @@
 package com.agro.techfields.service;
 
+import com.agro.techfields.dto.AtualizarIlhaDto;
 import com.agro.techfields.dto.IlhaDto;
-import com.agro.techfields.dto.PlantacaoIlhaDto;
 import com.agro.techfields.model.Ilha;
-import com.agro.techfields.model.Imagem;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.repository.PlantacaoRepository;
 import com.agro.techfields.result.MensagemResult;
@@ -18,18 +17,11 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class IlhaService {
 
-  /**
-   * Atributos
-   */
   @Inject
   private PlantacaoRepository plantacaoRepository;
 
-  /**
-   * Métodos
-   */
-
   /** Cria ilha. */
-  Ilha criarIlha(IlhaDto ilha) {
+  public Ilha criarIlha(IlhaDto ilha) {
     ObjectId plantacaoId = ilha.getPlantacaoId();
     String area = ilha.getArea();
 
@@ -43,8 +35,8 @@ public class IlhaService {
     return novaIlha;
   }
 
-  /** Busca ilha. */
-  List<Ilha> buscarIlhas(ObjectId idPlantacao) {
+  /** Busca ilhas. */
+  public List<Ilha> buscarIlhas(ObjectId idPlantacao) {
 
     Plantacao plantacao = plantacaoRepository.findById(idPlantacao);
 
@@ -52,10 +44,10 @@ public class IlhaService {
   }
 
   /** Atualiza Ilha. */
-  Ilha atualizarIlha(PlantacaoIlhaDto plantacaoIlhaDto, IlhaDto ilha) {
-    ObjectId plantacaoId = ilha.getPlantacaoId();
-    ObjectId ilhaId = plantacaoIlhaDto.getIlhaId();
-    String area = ilha.getArea();
+  public Ilha atualizarIlha(AtualizarIlhaDto atualizarIlhaDto) {
+    ObjectId plantacaoId = atualizarIlhaDto.getPlantacaoId();
+    ObjectId ilhaId = atualizarIlhaDto.getIlhaId();
+    String area = atualizarIlhaDto.getArea();
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
 
@@ -78,7 +70,7 @@ public class IlhaService {
   }
 
   /** Deleta ilha. */
-  MensagemResult deletarIlha(String nomePlantacao, ObjectId ilhaId) {
+  public MensagemResult deletarIlha(String nomePlantacao, ObjectId ilhaId) {
     Plantacao plantacao = plantacaoRepository.find("nome", nomePlantacao).firstResult();
 
     List<Ilha> ilhas = plantacao.getIlhas();

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.bson.types.ObjectId;
 
 public class Medida {
-  public ObjectId id;
+  public ObjectId id = new ObjectId();
 
   private String umidadeDoAr;
 

@@ -15,14 +15,11 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class ImagemService {
 
-  /**
-   * Atributos
-   */
   @Inject
   private PlantacaoRepository plantacaoRepository;
 
   /** Insere uma imagem. */
-  Imagem inserirImagem(ImagemDto image) {
+  public Imagem inserirImagem(ImagemDto image) {
     ObjectId plantacaoId = image.getPlantacaoId();
     String url = image.getUrl();
     Imagem novaImagem = new Imagem(url);
@@ -36,14 +33,14 @@ public class ImagemService {
   }
 
   /** Busca imagens. */
-  List<Imagem> buscarImagens(ObjectId idPlantacao) {
+  public List<Imagem> buscarImagens(ObjectId idPlantacao) {
     Plantacao plantacao = plantacaoRepository.findById(idPlantacao);
 
     return plantacao.getImagens();
   }
 
   /** Baixa imagem. */
-  Imagem baixarImagem(PlantacaoImagemDto plantacaoImagemDto) {
+  public Imagem baixarImagem(PlantacaoImagemDto plantacaoImagemDto) {
     ObjectId plantacaoId = plantacaoImagemDto.getPlantacaoId();
     ObjectId imagemId = plantacaoImagemDto.getImagemId();
 

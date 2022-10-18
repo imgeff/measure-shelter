@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 
 public class Imagem {
   
-  public ObjectId id;
+  public ObjectId id = new ObjectId();
 
   private String url;
 
