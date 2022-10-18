@@ -2,11 +2,14 @@ package com.agro.techfields.service;
 
 import com.agro.techfields.dto.ImagemDto;
 import com.agro.techfields.dto.PlantacaoImagemDto;
+import com.agro.techfields.error.NotFoundException;
 import com.agro.techfields.model.Imagem;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.repository.PlantacaoRepository;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -25,6 +28,11 @@ public class ImagemService {
     Imagem novaImagem = new Imagem(url);
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+    
     plantacao.addImagem(novaImagem);
 
     plantacaoRepository.update(plantacao);
@@ -36,6 +44,10 @@ public class ImagemService {
   public List<Imagem> buscarImagens(ObjectId idPlantacao) {
     Plantacao plantacao = plantacaoRepository.findById(idPlantacao);
 
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+
     return plantacao.getImagens();
   }
 
@@ -46,10 +58,19 @@ public class ImagemService {
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
 
-    Imagem optionalImagem = plantacao.getImagens().stream()
-        .filter(imagem -> imagem.getId().equals(imagemId)).findFirst().orElse(null);
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
 
-    return optionalImagem;
+    Optional<Imagem> optionalImagem = plantacao.getImagens().stream()
+        .filter(imagem -> imagem.getId().equals(imagemId))
+        .findFirst();
+
+    if (optionalImagem.isEmpty()) {
+      throw new NotFoundException("Imagem");
+    }
+
+    return optionalImagem.get();
   }
 
 }
