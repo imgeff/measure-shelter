@@ -9,6 +9,7 @@ import com.agro.techfields.service.IlhaService;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -40,13 +41,13 @@ public class IlhaController {
   }
 
   @POST
-  public Response criarIlha(IlhaDto ilha) {
+  public Response criarIlha(@Valid IlhaDto ilha) {
     Ilha ilhaCriada = this.ilhaService.criarIlha(ilha);
     return Response.status(Status.CREATED).entity(ilhaCriada).build();
   }
 
   @PUT
-  public Response atualizarIlha(AtualizarIlhaDto atualizarIlhaDto) {
+  public Response atualizarIlha(@Valid AtualizarIlhaDto atualizarIlhaDto) {
     Ilha ilhaAtualizada = this.ilhaService.atualizarIlha(atualizarIlhaDto);
     return Response.status(Status.OK).entity(ilhaAtualizada).build();
   }

@@ -2,6 +2,7 @@ package com.agro.techfields.service;
 
 import com.agro.techfields.dto.MedidaDto;
 import com.agro.techfields.dto.PlantacaoIlhaDto;
+import com.agro.techfields.error.NotFoundException;
 import com.agro.techfields.model.Ilha;
 import com.agro.techfields.model.Medida;
 import com.agro.techfields.model.Plantacao;
@@ -9,6 +10,7 @@ import com.agro.techfields.repository.PlantacaoRepository;
 import com.agro.techfields.result.MensagemResult;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,9 +32,14 @@ public class MedidaService {
     ObjectId ilhaId = medida.getIlhaId();
     ObjectId plantacaoId = medida.getPlantacaoId();
 
-    Medida novaMedida = new Medida(umidadeDoAr, umidadeDoSolo, temperatura);
-
+    final Medida novaMedida = new Medida(umidadeDoAr, umidadeDoSolo, temperatura);
+    
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+    
     List<Ilha> ilhas = plantacao.getIlhas();
 
     int indexIlha = -1;
@@ -45,6 +52,10 @@ public class MedidaService {
       }
     }
 
+    if (indexIlha == -1) {
+      throw new NotFoundException("Ilha");
+    }
+
     ilha.addMedida(novaMedida);
     ilhas.set(indexIlha, ilha);
     plantacaoRepository.update(plantacao);
@@ -55,12 +66,21 @@ public class MedidaService {
   public List<Medida> buscarMedidas(String nomePlantacao, ObjectId ilhaId) {
     Plantacao plantacao = plantacaoRepository.find("nome", nomePlantacao).firstResult();
 
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+
     List<Ilha> ilhas = plantacao.getIlhas();
 
-    Ilha ilhaDaMedida = ilhas.stream().filter(ilha -> ilha.getId().equals(ilhaId)).findFirst()
-        .orElse(null);
+    Optional<Ilha> ilhaDaMedida = ilhas.stream()
+        .filter(ilha -> ilha.getId().equals(ilhaId))
+        .findFirst();
 
-    return ilhaDaMedida.getMedidas();
+    if (ilhaDaMedida.isEmpty()) {
+      throw new NotFoundException("Ilha");
+    }
+
+    return ilhaDaMedida.get().getMedidas();
   }
 
   /** Atualiza uma medida pelo id passado. */
@@ -69,6 +89,11 @@ public class MedidaService {
     ObjectId ilhaId = medida.getIlhaId();
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+
     List<Ilha> ilhas = plantacao.getIlhas();
 
     int indexIlha = -1;
@@ -79,6 +104,10 @@ public class MedidaService {
         indexIlha = index;
         ilha = ilhas.get(index);
       }
+    }
+
+    if (indexIlha == -1) {
+      throw new NotFoundException("Ilha");
     }
 
     List<Medida> medidas = ilha.getMedidas();
@@ -93,6 +122,10 @@ public class MedidaService {
         medidaAtualizada.setUmidadeDoSolo(medida.getUmidadeDoSolo());
         medidas.set(index, medidaAtualizada);
       }
+    }
+
+    if (medidaAtualizada == null) {
+      throw new NotFoundException("Medida");
     }
 
     ilha.setMedidas(medidas);
@@ -123,11 +156,20 @@ public class MedidaService {
       }
     }
 
+    if (indexIlha == -1) {
+      throw new NotFoundException("Ilha");
+    }
+
     List<Medida> medidas = ilha.getMedidas();
+    int medidasSize = ilha.getMedidas().size();
     for (int index = 0; index < medidas.size(); index += 1) {
       if (medidas.get(index).getId().equals(medidaId)) {
         medidas.remove(index);
       }
+    }
+
+    if (medidas.size() == medidasSize) {
+      throw new NotFoundException("Medida");
     }
 
     ilha.setMedidas(medidas);

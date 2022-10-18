@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 public class PlantacaoImagemDto {
 
   private ObjectId plantacaoId;
+
   private ObjectId imagemId;
 
   public ObjectId getPlantacaoId() {

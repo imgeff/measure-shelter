@@ -2,6 +2,7 @@ package com.agro.techfields.service;
 
 import com.agro.techfields.dto.AtualizarIlhaDto;
 import com.agro.techfields.dto.IlhaDto;
+import com.agro.techfields.error.NotFoundException;
 import com.agro.techfields.model.Ilha;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.repository.PlantacaoRepository;
@@ -28,6 +29,11 @@ public class IlhaService {
     Ilha novaIlha = new Ilha(area);
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+
     plantacao.addIlha(novaIlha);
 
     plantacaoRepository.update(plantacao);
@@ -40,6 +46,10 @@ public class IlhaService {
 
     Plantacao plantacao = plantacaoRepository.findById(idPlantacao);
 
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
+
     return plantacao.getIlhas();
   }
 
@@ -50,6 +60,10 @@ public class IlhaService {
     String area = atualizarIlhaDto.getArea();
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
 
     List<Ilha> ilhas = plantacao.getIlhas();
 
@@ -72,6 +86,10 @@ public class IlhaService {
   /** Deleta ilha. */
   public MensagemResult deletarIlha(String nomePlantacao, ObjectId ilhaId) {
     Plantacao plantacao = plantacaoRepository.find("nome", nomePlantacao).firstResult();
+
+    if (plantacao == null) {
+      throw new NotFoundException("Plantação");
+    }
 
     List<Ilha> ilhas = plantacao.getIlhas();
 
