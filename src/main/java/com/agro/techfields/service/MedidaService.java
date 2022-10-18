@@ -100,6 +100,8 @@ public class MedidaService {
 
     plantacao.setIlhas(ilhas);
 
+    this.plantacaoRepository.update(plantacao);
+
     return medidaAtualizada;
   }
 
@@ -131,6 +133,8 @@ public class MedidaService {
     ilha.setMedidas(medidas);
     ilhas.set(indexIlha, ilha);
     plantacao.setIlhas(ilhas);
+
+    this.plantacaoRepository.update(plantacao);
 
     return new MensagemResult("A medida com id " + medidaId + " foi deletada!");
   }
