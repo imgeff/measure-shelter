@@ -34,5 +34,12 @@ public class ImagemController {
     Imagem imagem = this.imagemService.baixarImagem(plantacaoImagemDto);
     return Response.status(Status.OK).entity(imagem).build();
   }
+
+  @GET
+  @Path("/{plantacaoId}")
+  public Response buscarImagens(@PathParam("plantacaoId") ObjectId plantacaoId) {
+    List<Imagem> imagens = this.imagemService.buscarImagens(plantacaoId);
+    return Response.status(Status.OK).entity(imagens).build();
+  }
   
 }
