@@ -104,7 +104,7 @@ public class MedidaService {
   }
 
   /** Deleta uma medida pelo id passado. */
-  public MensagemResult deletarMedida(PlantacaoIlhaDto plantacaoIlhaDto, ObjectId medidaId) {
+  public MensagemResult deletarMedida(ObjectId medidaId, PlantacaoIlhaDto plantacaoIlhaDto) {
     ObjectId plantacaoId = plantacaoIlhaDto.getPlantacaoId();
     ObjectId ilhaId = plantacaoIlhaDto.getIlhaId();
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);

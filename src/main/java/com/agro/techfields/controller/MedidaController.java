@@ -1,13 +1,16 @@
 package com.agro.techfields.controller;
 
 import com.agro.techfields.dto.MedidaDto;
+import com.agro.techfields.dto.PlantacaoIlhaDto;
 import com.agro.techfields.model.Medida;
+import com.agro.techfields.result.MensagemResult;
 import com.agro.techfields.service.MedidaService;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -50,6 +53,16 @@ public class MedidaController {
   public Response atualizarMedida(@PathParam("medidaId") ObjectId medidaId, MedidaDto medida) {
     Medida medidaAtualizada = this.medidaService.atualizarMedida(medidaId, medida);
     return Response.status(Status.OK).entity(medidaAtualizada).build();
+  }
+
+  @DELETE
+  @Path("/{medidaId}")
+  public Response deletarMedida(
+      @PathParam("medidaId") ObjectId medidaId, 
+      PlantacaoIlhaDto plantacaoIlhaDto
+  ) {
+    MensagemResult resultadoDelecao = this.medidaService.deletarMedida(medidaId, plantacaoIlhaDto);
+    return Response.status(Status.OK).entity(resultadoDelecao).build();
   }
 
 }
