@@ -22,7 +22,7 @@ public class MedidaService {
   private PlantacaoRepository plantacaoRepository;
 
   /** Cria uma medida. */
-  Medida criarMedida(MedidaDto medida) {
+  public Medida criarMedida(MedidaDto medida) {
 
     String umidadeDoAr = medida.getUmidadeDoAr();
     String umidadeDoSolo = medida.getUmidadeDoSolo();
@@ -52,10 +52,8 @@ public class MedidaService {
   }
 
   /** Lista medidas. */
-  List<Medida> buscarMedidas(PlantacaoIlhaDto plantacaoIlhaDto) {
-    ObjectId plantacaoId = plantacaoIlhaDto.getPlantacaoId();
-    ObjectId ilhaId = plantacaoIlhaDto.getIlhaId();
-    Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+  public List<Medida> buscarMedidas(String nomePlantacao, ObjectId ilhaId) {
+    Plantacao plantacao = plantacaoRepository.find("nome", nomePlantacao).firstResult();
 
     List<Ilha> ilhas = plantacao.getIlhas();
 
@@ -66,7 +64,7 @@ public class MedidaService {
   }
 
   /** Atualiza uma medida pelo id passado. */
-  Medida atualizarMedida(MedidaDto medida, ObjectId medidaId) {
+  public Medida atualizarMedida(MedidaDto medida, ObjectId medidaId) {
     ObjectId plantacaoId = medida.getPlantacaoId();
     ObjectId ilhaId = medida.getIlhaId();
 
@@ -106,7 +104,7 @@ public class MedidaService {
   }
 
   /** Deleta uma medida pelo id passado. */
-  MensagemResult deletarMedida(PlantacaoIlhaDto plantacaoIlhaDto, ObjectId medidaId) {
+  public MensagemResult deletarMedida(PlantacaoIlhaDto plantacaoIlhaDto, ObjectId medidaId) {
     ObjectId plantacaoId = plantacaoIlhaDto.getPlantacaoId();
     ObjectId ilhaId = plantacaoIlhaDto.getIlhaId();
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
