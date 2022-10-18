@@ -41,5 +41,11 @@ public class ImagemController {
     List<Imagem> imagens = this.imagemService.buscarImagens(plantacaoId);
     return Response.status(Status.OK).entity(imagens).build();
   }
+
+  @POST
+  public Response inserirImagem(ImagemDto imagem) {
+    Imagem imagemCriada = this.imagemService.inserirImagem(imagem);
+    return Response.status(Status.CREATED).entity(imagemCriada).build();
+  }
   
 }
