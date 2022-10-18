@@ -1,10 +1,13 @@
 package com.agro.techfields.dto;
 
+import javax.validation.constraints.Size;
+
 import org.bson.types.ObjectId;
 
 public class IlhaDto {
   private ObjectId plantacaoId;
 
+  @Size(min = 3,  max = 12, message = "O campo area precisa ter entre 3 e 12 caracteres")
   private String area;
 
   public ObjectId getPlantacaoId() {

@@ -8,6 +8,7 @@ import com.agro.techfields.service.ImagemService;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,7 +31,7 @@ public class ImagemController {
   private ImagemService imagemService;
 
   @GET
-  public Response baixarImagem(PlantacaoImagemDto plantacaoImagemDto) {
+  public Response baixarImagem(@Valid PlantacaoImagemDto plantacaoImagemDto) {
     Imagem imagem = this.imagemService.baixarImagem(plantacaoImagemDto);
     return Response.status(Status.OK).entity(imagem).build();
   }
@@ -43,7 +44,7 @@ public class ImagemController {
   }
 
   @POST
-  public Response inserirImagem(ImagemDto imagem) {
+  public Response inserirImagem(@Valid ImagemDto imagem) {
     Imagem imagemCriada = this.imagemService.inserirImagem(imagem);
     return Response.status(Status.CREATED).entity(imagemCriada).build();
   }

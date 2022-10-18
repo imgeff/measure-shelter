@@ -1,13 +1,22 @@
 package com.agro.techfields.dto;
 
+import javax.validation.constraints.Size;
+
 import org.bson.types.ObjectId;
 
 public class MedidaDto {
   
   private ObjectId plantacaoId;
+
   private ObjectId ilhaId;
+
+  @Size(min = 2, message = "O campo umidadeDoAr deve ter mais de 2 caracteres")
   private String umidadeDoAr;
+
+  @Size(min = 2, message = "O campo umidadeDoSolo deve ter mais de 2 caracteres")
   private String umidadeDoSolo;
+
+  @Size(min = 2, message = "O campo temperatura deve ter mais de 2 caracteres")
   private String temperatura;
 
   public ObjectId getPlantacaoId() {

@@ -4,6 +4,7 @@ import com.agro.techfields.dto.PlantacaoDto;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.service.PlantacaoService;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -22,7 +23,7 @@ public class PlantacaoController {
   PlantacaoService plantacaoService;
 
   @POST
-  public Response criarPlantacao(PlantacaoDto plantacao) {
+  public Response criarPlantacao(@Valid PlantacaoDto plantacao) {
     Plantacao plantacaoCriada = this.plantacaoService.criarPlantacao(plantacao);
     return Response.status(Status.CREATED).entity(plantacaoCriada).build();
   }

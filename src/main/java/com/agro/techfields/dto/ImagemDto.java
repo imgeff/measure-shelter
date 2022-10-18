@@ -1,10 +1,14 @@
 package com.agro.techfields.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import org.bson.types.ObjectId;
 
 public class ImagemDto {
 
   private ObjectId plantacaoId;
+
+  @NotBlank(message = "O campo url não pode estar vazio ou nulo")
   private String url;
 
   public ObjectId getPlantacaoId() {

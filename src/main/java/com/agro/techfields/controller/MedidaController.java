@@ -9,6 +9,7 @@ import com.agro.techfields.service.MedidaService;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -43,14 +44,17 @@ public class MedidaController {
   }
 
   @POST
-  public Response criarMedida(MedidaDto medida) {
+  public Response criarMedida(@Valid MedidaDto medida) {
     Medida medidaCriada = this.medidaService.criarMedida(medida);
     return Response.status(Status.CREATED).entity(medidaCriada).build();
   }
 
   @PUT
   @Path("/{medidaId}")
-  public Response atualizarMedida(@PathParam("medidaId") ObjectId medidaId, MedidaDto medida) {
+  public Response atualizarMedida(
+      @PathParam("medidaId") ObjectId medidaId, 
+      @Valid MedidaDto medida
+  ) {
     Medida medidaAtualizada = this.medidaService.atualizarMedida(medidaId, medida);
     return Response.status(Status.OK).entity(medidaAtualizada).build();
   }
@@ -59,7 +63,7 @@ public class MedidaController {
   @Path("/{medidaId}")
   public Response deletarMedida(
       @PathParam("medidaId") ObjectId medidaId, 
-      PlantacaoIlhaDto plantacaoIlhaDto
+      @Valid PlantacaoIlhaDto plantacaoIlhaDto
   ) {
     MensagemResult resultadoDelecao = this.medidaService.deletarMedida(medidaId, plantacaoIlhaDto);
     return Response.status(Status.OK).entity(resultadoDelecao).build();
