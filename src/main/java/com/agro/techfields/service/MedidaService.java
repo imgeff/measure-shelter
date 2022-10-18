@@ -64,7 +64,7 @@ public class MedidaService {
   }
 
   /** Atualiza uma medida pelo id passado. */
-  public Medida atualizarMedida(MedidaDto medida, ObjectId medidaId) {
+  public Medida atualizarMedida(ObjectId medidaId, MedidaDto medida) {
     ObjectId plantacaoId = medida.getPlantacaoId();
     ObjectId ilhaId = medida.getIlhaId();
 
