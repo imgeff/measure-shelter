@@ -27,7 +27,7 @@
 //     Medida medida = UtilTest.criaMedida(plantacao.getId(), ilha.getId(), "60%", "50%", "15C°");
 //     MedidaDto medidaAtualizada = 
 //         new MedidaDto(plantacao.getId(), ilha.getId(), "50%", "50%", "16C°");
-    
+
 //     Response response = given()
 //         .contentType(MediaType.APPLICATION_JSON)
 //         .body(medidaAtualizada)

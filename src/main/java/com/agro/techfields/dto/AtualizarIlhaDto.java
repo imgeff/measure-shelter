@@ -1,17 +1,14 @@
 package com.agro.techfields.dto;
 
-import javax.validation.constraints.Size;
-
 public class AtualizarIlhaDto extends PlantacaoIlhaDto {
 
-  @Size(min = 3,  max = 12, message = "O campo area precisa ter entre 3 e 12 caracteres")
-  private String area;
+  private float area;
 
-  public String getArea() {
+  public float getArea() {
     return area;
   }
 
-  public void setArea(String area) {
+  public void setArea(float area) {
     this.area = area;
   }
 }

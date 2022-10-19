@@ -14,7 +14,7 @@
 // import org.bson.types.ObjectId;
 
 // public class UtilTest {
-  
+
 //   /**
 //    * Recebe informações da plantação, cria e retorna a plantação registrado no banco.
 //    * @param nomePlantacao
@@ -74,8 +74,10 @@
 //       String umidadeDoSolo,
 //       String temperatura
 //   ) {
+
 //     MedidaDto medida = 
     // new MedidaDto(plantacaoId, ilhaId, umidadeDoAr, umidadeDoSolo, temperatura);
+    
 //     Response response = given()
 //         .contentType(MediaType.APPLICATION_JSON)
 //         .body(medida)
