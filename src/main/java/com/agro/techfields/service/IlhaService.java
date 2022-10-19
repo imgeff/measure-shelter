@@ -24,7 +24,7 @@ public class IlhaService {
   /** Cria ilha. */
   public Ilha criarIlha(IlhaDto ilha) {
     ObjectId plantacaoId = ilha.getPlantacaoId();
-    String area = ilha.getArea();
+    float area = ilha.getArea();
 
     Ilha novaIlha = new Ilha(area);
 
@@ -57,7 +57,7 @@ public class IlhaService {
   public Ilha atualizarIlha(AtualizarIlhaDto atualizarIlhaDto) {
     ObjectId plantacaoId = atualizarIlhaDto.getPlantacaoId();
     ObjectId ilhaId = atualizarIlhaDto.getIlhaId();
-    String area = atualizarIlhaDto.getArea();
+    float area = atualizarIlhaDto.getArea();
 
     Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
 

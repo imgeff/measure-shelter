@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 public class Ilha {
   public ObjectId id = new ObjectId();
 
-  private String area;
+  private float area;
 
   private List<Medida> medidas;
 
@@ -21,7 +21,7 @@ public class Ilha {
    * @param area
    * área da ilha a ser criada
    */
-  public Ilha(String area) {
+  public Ilha(float area) {
     this.area = area;
     this.medidas = new ArrayList<Medida>();
   }
@@ -30,7 +30,7 @@ public class Ilha {
     return id;
   }
 
-  public String getArea() {
+  public float getArea() {
     return area;
   }
 
@@ -38,7 +38,7 @@ public class Ilha {
     return medidas;
   }
 
-  public void setArea(String area) {
+  public void setArea(float area) {
     this.area = area;
   }
 
