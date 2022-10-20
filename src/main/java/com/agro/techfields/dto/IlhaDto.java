@@ -7,6 +7,12 @@ public class IlhaDto {
 
   private float area;
 
+  public IlhaDto() {}
+
+  public IlhaDto(float area) {
+    this.area = area;
+  }
+
   public ObjectId getPlantacaoId() {
     return plantacaoId;
   }

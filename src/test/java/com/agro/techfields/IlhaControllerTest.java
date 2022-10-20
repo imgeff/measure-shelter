@@ -1,54 +1,68 @@
-// package com.agro.techfields;
+package com.agro.techfields;
 
-// import static io.restassured.RestAssured.given;
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 
-// import com.agro.techfields.dto.IlhaDto;
-// import com.agro.techfields.model.Ilha;
-// import com.agro.techfields.model.Plantacao;
-// import com.agro.techfields.result.MensagemResult;
+import com.agro.techfields.model.Ilha;
+import com.agro.techfields.model.Plantacao;
+import com.agro.techfields.repository.PlantacaoRepository;
 
-// import io.quarkus.test.junit.QuarkusTest;
-// import io.restassured.response.Response;
-// import javax.ws.rs.core.MediaType;
-// import javax.ws.rs.core.Response.Status;
+import io.quarkus.test.junit.QuarkusTest;
 
-// import org.junit.jupiter.api.Test;
+import javax.inject.Inject;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
-// @QuarkusTest
-// public class IlhaControllerTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-//   @Test
-//   public void testCriarIlhaSucesso() {
-//     Plantacao plantacao = UtilTest.criaPlantacao("Soja");
-//     IlhaDto ilha = new IlhaDto(plantacao.getId(), "Norte");
+@QuarkusTest
+public class IlhaControllerTest {
 
-//     Response response = given()
-//         .contentType(MediaType.APPLICATION_JSON)
-//         .body(ilha)
-//         .when()
-//         .post("/ilha");
+  @Inject
+  private PlantacaoRepository plantacaoRepository;
+
+  @BeforeEach
+  public void cleanUp() {
+    this.plantacaoRepository.deleteAll();
+  }
+
+  @Test
+  public void testCriarIlhaSucesso() {
+    Plantacao plantacao = new Plantacao("Soja");
+    this.plantacaoRepository.persist(plantacao);
+    Ilha ilha = new Ilha(1000);
+    plantacao.addIlha(ilha);
+    this.plantacaoRepository.update(plantacao);
+
+    given()
+        .contentType(MediaType.APPLICATION_JSON)
+        .when()
+        .get("/ilha/" + plantacao.getId())
+        .then()
+        .statusCode(Status.OK.getStatusCode())
+        .body("size()",  is(1), "area", hasItem(ilha.getArea()));
     
-//     Ilha responseBody = response.as(Ilha.class);
-    
-//     assertEquals(Status.CREATED.getStatusCode(), response.getStatusCode());
-//     assertEquals("Norte", responseBody.getArea());
-//     assertFalse(responseBody.getId().isEmpty());
-//   }
+  }
 
-//   @Test
-//   public void testDeletarIlhaSucesso() {
-//     Plantacao plantacao = UtilTest.criaPlantacao("Soja");
-//     Ilha ilha = UtilTest.criaIlha(plantacao.getId(), "Norte");
-//     Response response = given()
-//         .contentType(MediaType.APPLICATION_JSON)
-//         .when()
-//         .delete(String.format("/ilha/%s/%s", plantacao.getNome(), ilha.getId()));
+  @Test
+  public void testDeletarIlhaSucesso() {
+    Plantacao plantacao = new Plantacao("Café");
+    this.plantacaoRepository.persist(plantacao);
+    Ilha ilha = new Ilha(2000);
+    plantacao.addIlha(ilha);
+    this.plantacaoRepository.update(plantacao);
 
-//     MensagemResult responseBody = response.as(MensagemResult.class);
-//     assertEquals(Status.OK.getStatusCode(), response.getStatusCode());
-//     assertTrue(responseBody.getMensagem().contains(ilha.getId()));
-//   }
+    given()
+        .contentType(MediaType.APPLICATION_JSON)
+        .when()
+        .delete(String.format("/ilha/%s/%s", plantacao.getNome(), ilha.getId()))
+        .then()
+        .statusCode(Status.OK.getStatusCode())
+        .body(containsString("A ilha de id " + ilha.getId() + " foi removida com sucesso!"));
+
+  }
   
-// }
+}
