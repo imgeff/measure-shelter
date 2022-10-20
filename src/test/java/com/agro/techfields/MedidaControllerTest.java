@@ -1,42 +1,56 @@
-// package com.agro.techfields;
+package com.agro.techfields;
 
-// import static io.restassured.RestAssured.given;
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 
-// import com.agro.techfields.dto.MedidaDto;
-// import com.agro.techfields.model.Ilha;
-// import com.agro.techfields.model.Medida;
-// import com.agro.techfields.model.Plantacao;
-// import com.agro.techfields.result.MensagemResult;
+import com.agro.techfields.model.Ilha;
+import com.agro.techfields.model.Medida;
+import com.agro.techfields.model.Plantacao;
+import com.agro.techfields.repository.PlantacaoRepository;
 
-// import io.quarkus.test.junit.QuarkusTest;
-// import io.restassured.response.Response;
-// import javax.ws.rs.core.MediaType;
-// import javax.ws.rs.core.Response.Status;
+import io.quarkus.test.junit.QuarkusTest;
 
-// import org.junit.jupiter.api.Test;
+import javax.inject.Inject;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
-// @QuarkusTest
-// public class MedidaControllerTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+@QuarkusTest
+public class MedidaControllerTest {
+
+  @Inject
+  private PlantacaoRepository plantacaoRepository;
+
+  @BeforeEach
+  public void cleanUp() {
+    this.plantacaoRepository.deleteAll();
+  }
   
-//   @Test
-//   public void testAtualizarMedidaSucesso() {
-//     Plantacao plantacao = UtilTest.criaPlantacao("Soja");
-//     Ilha ilha = UtilTest.criaIlha(plantacao.getId(), "Norte");
-//     Medida medida = UtilTest.criaMedida(plantacao.getId(), ilha.getId(), "60%", "50%", "15C°");
-//     MedidaDto medidaAtualizada = 
-//         new MedidaDto(plantacao.getId(), ilha.getId(), "50%", "50%", "16C°");
+  @Test
+  public void testBuscarMedidasSucesso() {
+    Plantacao plantacao = new Plantacao("Arroz");
+    this.plantacaoRepository.persist(plantacao);
+    Ilha ilha = new Ilha(1000);
+    Medida medida = new Medida("50%", "80%", "18c°");
+    ilha.addMedida(medida);
+    plantacao.addIlha(ilha);
+    this.plantacaoRepository.update(plantacao);
+    
+    given()
+        .contentType(MediaType.APPLICATION_JSON)
+        .when()
+        .get(String.format("/medida/%s/%s", plantacao.getNome(), ilha.getId()))
+        .then()
+        .statusCode(Status.OK.getStatusCode())
+        .body("size()", is(1))
+        .body(containsString(medida.getId().toString()))
+        .body("umidadeDoAr", hasItem("50%"))
+        .body("umidadeDoSolo", hasItem("80%"))
+        .body("temperatura", hasItem("18c°"));
 
-//     Response response = given()
-//         .contentType(MediaType.APPLICATION_JSON)
-//         .body(medidaAtualizada)
-//         .when()
-//         .put(String.format("/medida/%s", medida.getId()));
-
-//     MensagemResult responseBody = response.as(MensagemResult.class);
-
-//     assertEquals(Status.OK.getStatusCode(), response.getStatusCode());
-//     assertTrue(responseBody.getMensagem().contains(medida.getId()));
-//   }
-// }
+  }
+}
