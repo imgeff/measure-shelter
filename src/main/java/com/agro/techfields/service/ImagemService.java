@@ -2,13 +2,11 @@ package com.agro.techfields.service;
 
 import com.agro.techfields.dto.ImagemDto;
 import com.agro.techfields.dto.PlantacaoImagemDto;
-import com.agro.techfields.error.NotFoundException;
 import com.agro.techfields.model.Imagem;
 import com.agro.techfields.model.Plantacao;
 import com.agro.techfields.repository.PlantacaoRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -27,11 +25,7 @@ public class ImagemService {
     String url = image.getUrl();
     Imagem novaImagem = new Imagem(url);
 
-    Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
-
-    if (plantacao == null) {
-      throw new NotFoundException("Plantação");
-    }
+    Plantacao plantacao = this.plantacaoRepository.getPlantacao(plantacaoId);
     
     plantacao.addImagem(novaImagem);
 
@@ -41,12 +35,8 @@ public class ImagemService {
   }
 
   /** Busca imagens. */
-  public List<Imagem> buscarImagens(ObjectId idPlantacao) {
-    Plantacao plantacao = plantacaoRepository.findById(idPlantacao);
-
-    if (plantacao == null) {
-      throw new NotFoundException("Plantação");
-    }
+  public List<Imagem> buscarImagens(ObjectId plantacaoId) {
+    Plantacao plantacao = this.plantacaoRepository.getPlantacao(plantacaoId);
 
     return plantacao.getImagens();
   }
@@ -56,21 +46,10 @@ public class ImagemService {
     ObjectId plantacaoId = plantacaoImagemDto.getPlantacaoId();
     ObjectId imagemId = plantacaoImagemDto.getImagemId();
 
-    Plantacao plantacao = plantacaoRepository.findById(plantacaoId);
+    Plantacao plantacao = this.plantacaoRepository.getPlantacao(plantacaoId);
 
-    if (plantacao == null) {
-      throw new NotFoundException("Plantação");
-    }
-
-    Optional<Imagem> optionalImagem = plantacao.getImagens().stream()
-        .filter(imagem -> imagem.getId().equals(imagemId))
-        .findFirst();
-
-    if (optionalImagem.isEmpty()) {
-      throw new NotFoundException("Imagem");
-    }
-
-    return optionalImagem.get();
+    Imagem imagem = this.plantacaoRepository.getImagem(plantacao, imagemId);
+    return imagem;
   }
 
 }
